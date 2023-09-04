@@ -46,7 +46,7 @@ program
     // You may style the text with chalk as you wish
     // HINT: You can store both author and quote on the same line using
     // a separator like pipe | and then using .split() when retrieving
-    const QUOTE = `${quote} | ${author || "Anonymous"}`
+    const QUOTE = `${quote}|${author || "Anonymous"}`
     try {
       await fs.appendFile(QUOTE_FILE, QUOTE + '\n', 'utf-8')
       console.log(chalk.bgMagenta("Quote added!"))
