@@ -16,19 +16,16 @@ program
     // console log the quote and author
     // You may style the text with chalk as you wish
     try {
-      await fs.readFile(QUOTE_FILE, 'utf-8')
-         .then (data => {
-            const quotes = data.split("\n")
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)]
-            const [quote, author] = randomQuote.split('|').map(str => str.trim())
+      const data = await fs.readFile(QUOTE_FILE, 'utf-8') 
+        
+      const quotes = data.split("\n")
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)].split('|')
+      const [quote, author] = randomQuote.map((str) => str.trim())
 
-           
-            
-            console.log(chalk.blue(author))
-            console.log(chalk.green(quote))
-            
-            
-          })
+    
+      console.log(chalk.blue(quote))
+      console.log(chalk.green(author || "Anonymous"))
+      
     } catch (err) {
       console.log(chalk.red(err))
     }
@@ -46,9 +43,13 @@ program
     // You may style the text with chalk as you wish
     // HINT: You can store both author and quote on the same line using
     // a separator like pipe | and then using .split() when retrieving
-    const QUOTE = `${quote}|${author || "Anonymous"}`
+    const QUOTE = `${quote} | ${author || "Anonymous"}`
     try {
-      await fs.appendFile(QUOTE_FILE, QUOTE + '\n', 'utf-8')
+      await fs.appendFile(QUOTE_FILE, QUOTE)
+      
+      .then (async () => {
+        const data = await fs.readFile(QUOTE_FILE, 'utf-8')
+      })
       console.log(chalk.bgMagenta("Quote added!"))
     } catch (err) {
       console.log(chalk.red(err))
